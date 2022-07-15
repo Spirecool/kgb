@@ -55,11 +55,15 @@ class Mission
     #[ORM\OneToMany(mappedBy: 'mission', targetEntity: Target::class)]
     private Collection $targets;
 
+    #[ORM\OneToMany(mappedBy: 'mission', targetEntity: Contact::class)]
+    private Collection $contacts;
+
     public function __construct()
     {
         $this->hideouts = new ArrayCollection();
         $this->agents = new ArrayCollection();
         $this->targets = new ArrayCollection();
+        $this->contacts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -271,6 +275,36 @@ class Mission
             // set the owning side to null (unless already changed)
             if ($target->getMission() === $this) {
                 $target->setMission(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Contact>
+     */
+    public function getContacts(): Collection
+    {
+        return $this->contacts;
+    }
+
+    public function addContact(Contact $contact): self
+    {
+        if (!$this->contacts->contains($contact)) {
+            $this->contacts[] = $contact;
+            $contact->setMission($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContact(Contact $contact): self
+    {
+        if ($this->contacts->removeElement($contact)) {
+            // set the owning side to null (unless already changed)
+            if ($contact->getMission() === $this) {
+                $contact->setMission(null);
             }
         }
 
