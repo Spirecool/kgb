@@ -182,4 +182,9 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+    //on va passer l'objet en string
+    public function __toString(): string
+    {
+        return (string) $this->last_name;
+    }
 }
