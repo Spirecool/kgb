@@ -21,9 +21,13 @@ class Skill
     #[ORM\OneToMany(mappedBy: 'skill', targetEntity: Mission::class)]
     private Collection $missions;
 
+    #[ORM\OneToMany(mappedBy: 'skill', targetEntity: Agent::class)]
+    private Collection $agents;
+
     public function __construct()
     {
         $this->missions = new ArrayCollection();
+        $this->agents = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -67,6 +71,36 @@ class Skill
             // set the owning side to null (unless already changed)
             if ($mission->getSkill() === $this) {
                 $mission->setSkill(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Agent>
+     */
+    public function getAgents(): Collection
+    {
+        return $this->agents;
+    }
+
+    public function addAgent(Agent $agent): self
+    {
+        if (!$this->agents->contains($agent)) {
+            $this->agents[] = $agent;
+            $agent->setSkill($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAgent(Agent $agent): self
+    {
+        if ($this->agents->removeElement($agent)) {
+            // set the owning side to null (unless already changed)
+            if ($agent->getSkill() === $this) {
+                $agent->setSkill(null);
             }
         }
 
