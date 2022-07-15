@@ -52,10 +52,14 @@ class Mission
     #[ORM\OneToMany(mappedBy: 'mission', targetEntity: Agent::class)]
     private Collection $agents;
 
+    #[ORM\OneToMany(mappedBy: 'mission', targetEntity: Target::class)]
+    private Collection $targets;
+
     public function __construct()
     {
         $this->hideouts = new ArrayCollection();
         $this->agents = new ArrayCollection();
+        $this->targets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -237,6 +241,36 @@ class Mission
             // set the owning side to null (unless already changed)
             if ($agent->getMission() === $this) {
                 $agent->setMission(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Target>
+     */
+    public function getTargets(): Collection
+    {
+        return $this->targets;
+    }
+
+    public function addTarget(Target $target): self
+    {
+        if (!$this->targets->contains($target)) {
+            $this->targets[] = $target;
+            $target->setMission($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTarget(Target $target): self
+    {
+        if ($this->targets->removeElement($target)) {
+            // set the owning side to null (unless already changed)
+            if ($target->getMission() === $this) {
+                $target->setMission(null);
             }
         }
 
