@@ -32,6 +32,9 @@ class Contact
     #[ORM\ManyToOne(inversedBy: 'contacts')]
     private ?Mission $mission = null;
 
+    #[ORM\ManyToOne(inversedBy: 'contact_id')]
+    private ?Mission $mission_id = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -107,5 +110,22 @@ class Contact
         $this->mission = $mission;
 
         return $this;
+    }
+
+    public function getMissionId(): ?Mission
+    {
+        return $this->mission_id;
+    }
+
+    public function setMissionId(?Mission $mission_id): self
+    {
+        $this->mission_id = $mission_id;
+
+        return $this;
+    }
+    //on va passer l'objet en string
+    public function __toString(): string
+    {
+        return (string) $this->code_name;
     }
 }

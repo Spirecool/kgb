@@ -28,6 +28,9 @@ class Hideout
     #[ORM\ManyToOne(inversedBy: 'hideouts')]
     private ?Mission $mission = null;
 
+    #[ORM\ManyToOne(inversedBy: 'hideout')]
+    private ?Mission $misson_id = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -89,6 +92,18 @@ class Hideout
     public function setMission(?Mission $mission): self
     {
         $this->mission = $mission;
+
+        return $this;
+    }
+
+    public function getMissonId(): ?Mission
+    {
+        return $this->misson_id;
+    }
+
+    public function setMissonId(?Mission $misson_id): self
+    {
+        $this->misson_id = $misson_id;
 
         return $this;
     }

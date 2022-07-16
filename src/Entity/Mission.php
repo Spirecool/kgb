@@ -58,12 +58,28 @@ class Mission
     #[ORM\OneToMany(mappedBy: 'mission', targetEntity: Contact::class)]
     private Collection $contacts;
 
+    #[ORM\OneToMany(mappedBy: 'mission_id', targetEntity: Contact::class)]
+    private Collection $contact_id;
+
+    #[ORM\OneToMany(mappedBy: 'agent_id', targetEntity: Agent::class)]
+    private Collection $agent;
+
+    #[ORM\OneToMany(mappedBy: 'misson_id', targetEntity: Hideout::class)]
+    private Collection $hideout;
+
+    #[ORM\OneToMany(mappedBy: 'mission_id', targetEntity: Target::class)]
+    private Collection $target;
+
     public function __construct()
     {
         $this->hideouts = new ArrayCollection();
         $this->agents = new ArrayCollection();
         $this->targets = new ArrayCollection();
         $this->contacts = new ArrayCollection();
+        $this->contact_id = new ArrayCollection();
+        $this->agent = new ArrayCollection();
+        $this->hideout = new ArrayCollection();
+        $this->target = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -309,5 +325,59 @@ class Mission
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Contact>
+     */
+    public function getContactId(): Collection
+    {
+        return $this->contact_id;
+    }
+
+    public function addContactId(Contact $contactId): self
+    {
+        if (!$this->contact_id->contains($contactId)) {
+            $this->contact_id[] = $contactId;
+            $contactId->setMissionId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContactId(Contact $contactId): self
+    {
+        if ($this->contact_id->removeElement($contactId)) {
+            // set the owning side to null (unless already changed)
+            if ($contactId->getMissionId() === $this) {
+                $contactId->setMissionId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Agent>
+     */
+    public function getAgent(): Collection
+    {
+        return $this->agent;
+    }
+
+    /**
+     * @return Collection<int, Hideout>
+     */
+    public function getHideout(): Collection
+    {
+        return $this->hideout;
+    }
+
+    /**
+     * @return Collection<int, Target>
+     */
+    public function getTarget(): Collection
+    {
+        return $this->target;
     }
 }

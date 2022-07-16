@@ -32,6 +32,9 @@ class Target
     #[ORM\ManyToOne(inversedBy: 'targets')]
     private ?Mission $mission = null;
 
+    #[ORM\ManyToOne(inversedBy: 'target')]
+    private ?Mission $mission_id = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -105,6 +108,18 @@ class Target
     public function setMission(?Mission $mission): self
     {
         $this->mission = $mission;
+
+        return $this;
+    }
+
+    public function getMissionId(): ?Mission
+    {
+        return $this->mission_id;
+    }
+
+    public function setMissionId(?Mission $mission_id): self
+    {
+        $this->mission_id = $mission_id;
 
         return $this;
     }

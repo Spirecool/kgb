@@ -35,6 +35,9 @@ class Agent
     #[ORM\ManyToOne(inversedBy: 'agents')]
     private ?Skill $skill = null;
 
+    #[ORM\ManyToOne(inversedBy: 'agent')]
+    private ?Mission $agent_id = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -120,6 +123,18 @@ class Agent
     public function setSkill(?Skill $skill): self
     {
         $this->skill = $skill;
+
+        return $this;
+    }
+
+    public function getAgentId(): ?Mission
+    {
+        return $this->agent_id;
+    }
+
+    public function setAgentId(?Mission $agent_id): self
+    {
+        $this->agent_id = $agent_id;
 
         return $this;
     }

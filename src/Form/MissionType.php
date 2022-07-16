@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Mission;
+use App\Entity\Contact;
+use App\Entity\Agent;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -57,6 +59,10 @@ class MissionType extends AbstractType
                     'Sabotage' => 'Sabotage',
                 ]
             ])
+            ->add('target')
+            ->add('agent')
+            ->add('contact_id')
+            ->add('hideout')
         ;
     }
 
