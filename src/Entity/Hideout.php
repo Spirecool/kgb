@@ -96,15 +96,21 @@ class Hideout
         return $this;
     }
 
-    public function getMissonId(): ?Mission
+    public function getMissionId(): ?Mission
     {
-        return $this->misson_id;
+        return $this->mission_id;
     }
 
-    public function setMissonId(?Mission $misson_id): self
+    public function setMissionId(?Mission $mission_id): self
     {
         $this->misson_id = $misson_id;
 
         return $this;
+    }
+
+    //on va passer l'objet en string
+    public function __toString(): string
+    {
+        return (string) $this->code_name;
     }
 }

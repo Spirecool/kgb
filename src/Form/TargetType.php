@@ -2,14 +2,14 @@
 
 namespace App\Form;
 
-use App\Entity\Contact;
+use App\Entity\Target;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
-class ContactType extends AbstractType
+class TargetType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -18,10 +18,10 @@ class ContactType extends AbstractType
             ->add('last_name')
             ->add('first_name')
             ->add('birthday', DateType::class, [
-                    'widget' => 'choice',
-                    'format' => 'y-M-d',
-                    'years' => range(date("Y") - 85, date("Y") - 18)
-                ])
+                'widget' => 'choice',
+                'format' => 'y-M-d',
+                'years' => range(date("Y") - 85, date("Y") - 18)
+            ])
             ->add('nationality', ChoiceType::class, [
                 'choices' => [
                     'American' => 'American',
@@ -42,7 +42,7 @@ class ContactType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Contact::class,
+            'data_class' => Target::class,
         ]);
     }
 }

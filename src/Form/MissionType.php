@@ -5,6 +5,8 @@ namespace App\Form;
 use App\Entity\Mission;
 use App\Entity\Contact;
 use App\Entity\Agent;
+use App\Entity\Skill;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -50,7 +52,10 @@ class MissionType extends AbstractType
                     'Swiss' => 'Swiss',
                 ]
             ])
-            ->add('skill')
+            ->add('skill', EntityType::class, [
+                'choice_label' => 'name',
+                'class' => Skill::class,
+            ])
             ->add('mission_type', ChoiceType::class, [
                 'choices' => [
                     'Surveillance' => 'Surveillance',
@@ -61,9 +66,15 @@ class MissionType extends AbstractType
             ])
             ->add('target')
             ->add('agent')
-            ->add('contact_id')
-            ->add('hideout')
-        ;
+            ->add('contact_id', EntityType::class, [
+                'choice_label' => function ($contacts) {
+                    return $contacts->getCodeName();
+                },
+                'class' => Contact::class,
+                'multiple' => true,
+                'expanded' => true,
+            ])
+            ->add('hideout');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
